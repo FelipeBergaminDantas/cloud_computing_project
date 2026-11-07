@@ -1,0 +1,8 @@
+[
+  {
+    "Source": "techcommerce.pedidos",
+    "DetailType": "PedidoCriado",
+    "EventBusName": "techcommerce-bus",
+    "Detail": "{\"pedidoId\": \"1001\", \"cliente\": \"Maria Souza\", \"valor\": 349.90, \"itens\": [{\"sku\": \"FONE-BT-01\", \"qtd\": 1}, {\"sku\": \"CABO-USBC\", \"qtd\": 2}]}"
+  }
+]

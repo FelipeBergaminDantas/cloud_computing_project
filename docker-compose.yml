@@ -1,0 +1,18 @@
+# LocalStack - emula os servicos AWS localmente para o projeto TechCommerce
+# O auth token NAO fica neste arquivo: e lido da variavel de ambiente do Windows.
+name: techcommerce-localstack
+
+services:
+  localstack:
+    container_name: techcommerce-localstack
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:${LOCALSTACK_PORT:-4566}:4566"   # gateway unico de todos os servicos
+    environment:
+      - LOCALSTACK_AUTH_TOKEN=${LOCALSTACK_AUTH_TOKEN}
+      - DEBUG=0
+      - AWS_DEFAULT_REGION=us-east-1
+      # Lambdas rodam em containers irmaos; ficam na mesma rede do LocalStack
+      - LAMBDA_DOCKER_NETWORK=techcommerce-localstack_default
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"   # necessario para executar as Lambdas

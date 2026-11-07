@@ -1,0 +1,8 @@
+[
+  {
+    "Source": "techcommerce.pedidos",
+    "DetailType": "PedidoCriado",
+    "EventBusName": "techcommerce-bus",
+    "Detail": "{\"pedidoId\": \"1002\", \"cliente\": \"Joao Lima\", \"valor\": 0, \"itens\": []}"
+  }
+]

@@ -1,0 +1,136 @@
+<mxfile host="65bd71144e">
+    <diagram id="techcommerce" name="TechCommerce Serverless">
+        <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1540" pageHeight="820" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <!-- ===================== Titulo e area AWS ===================== -->
+                <mxCell id="title" parent="1" style="text;html=1;fontSize=18;fontStyle=1;align=center;" value="TechCommerce – Arquitetura Serverless orientada a eventos (AWS Lambda + Amazon EventBridge)" vertex="1">
+                    <mxGeometry height="30" width="1290" x="230" y="12" as="geometry"/>
+                </mxCell>
+                <mxCell id="aws" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#232F3E;verticalAlign=top;align=left;spacingLeft=10;fontStyle=1;" value="AWS (LocalStack) – us-east-1" vertex="1">
+                    <mxGeometry height="745" width="1290" x="230" y="55" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== Aplicacao ===================== -->
+                <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" value="Aplicação&lt;br&gt;e-commerce&lt;br&gt;(checkout)" vertex="1">
+                    <mxGeometry height="60" width="130" x="10" y="240" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== EventBridge ===================== -->
+                <mxCell id="bus" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Amazon EventBridge&lt;br&gt;&lt;b&gt;techcommerce-bus&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="90" width="180" x="300" y="225" as="geometry"/>
+                </mxCell>
+                <mxCell id="sched" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="EventBridge – Regra agendada&lt;br&gt;(barramento default)&lt;br&gt;&lt;b&gt;rate(1 minute)&lt;/b&gt; (demo)&lt;br&gt;cron(0 9 * * ? *) (produção)" vertex="1">
+                    <mxGeometry height="100" width="200" x="290" y="540" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== Lambdas (agrupadas) ===================== -->
+                <mxCell id="lambdas" parent="1" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#fff8ee;strokeColor=#d79b00;verticalAlign=top;fontStyle=1;fontColor=#9a6700;" value="AWS Lambda (Python 3.12)" vertex="1">
+                    <mxGeometry height="585" width="240" x="670" y="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="l1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" value="λ validarPedido" vertex="1">
+                    <mxGeometry height="60" width="170" x="705" y="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="l2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" value="λ atualizarStatus" vertex="1">
+                    <mxGeometry height="60" width="170" x="705" y="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="l3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" value="λ notificarEquipes" vertex="1">
+                    <mxGeometry height="60" width="170" x="705" y="380" as="geometry"/>
+                </mxCell>
+                <mxCell id="l4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" value="λ gerarRelatorioVendas" vertex="1">
+                    <mxGeometry height="60" width="170" x="705" y="560" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== Dados / mensageria ===================== -->
+                <!-- DynamoDB na altura do atualizarStatus -->
+                <mxCell id="ddb" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="DynamoDB&lt;br&gt;&lt;b&gt;Pedidos&lt;/b&gt;&lt;br&gt;(pedidoId)" vertex="1">
+                    <mxGeometry height="100" width="130" x="1050" y="220" as="geometry"/>
+                </mxCell>
+                <!-- SNS + filas na altura do notificarEquipes -->
+                <mxCell id="sns" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="SNS&lt;br&gt;&lt;b&gt;techcommerce-notificacoes&lt;/b&gt;" vertex="1">
+                    <mxGeometry height="60" width="180" x="1040" y="380" as="geometry"/>
+                </mxCell>
+                <mxCell id="q1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="SQS logística" vertex="1">
+                    <mxGeometry height="45" width="150" x="1300" y="345" as="geometry"/>
+                </mxCell>
+                <mxCell id="q2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="SQS atendimento" vertex="1">
+                    <mxGeometry height="45" width="150" x="1300" y="430" as="geometry"/>
+                </mxCell>
+                <mxCell id="s3" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="S3&lt;br&gt;&lt;b&gt;techcommerce-relatorios&lt;/b&gt;&lt;br&gt;relatorios/vendas-*.csv" vertex="1">
+                    <mxGeometry height="100" width="180" x="1040" y="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="cw" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="CloudWatch Logs&lt;br&gt;/aws/lambda/*" vertex="1">
+                    <mxGeometry height="60" width="160" x="710" y="715" as="geometry"/>
+                </mxCell>
+                <mxCell id="iam" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="IAM Role&lt;br&gt;&lt;b&gt;techcommerce-lambda-role&lt;/b&gt;&lt;br&gt;permissões mínimas das 4 Lambdas" vertex="1">
+                    <mxGeometry height="60" width="210" x="1290" y="90" as="geometry"/>
+                </mxCell>
+
+                <!-- ===================== Arestas ===================== -->
+                <!-- Rotulos com fundo branco; pontos de saida/entrada fixos para evitar cruzamentos -->
+                <mxCell id="e1" edge="1" parent="1" source="app" target="bus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" value="PedidoCriado">
+                    <mxGeometry x="-0.5" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" edge="1" parent="1" source="bus" target="l1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.25;exitY=0;entryX=0;entryY=0.1667;" value="regra-pedido-criado">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="345" y="115"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e3" edge="1" parent="1" source="l1" target="bus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0;exitY=0.8333;entryX=0.8333;entryY=0;" value="PedidoValidado /&lt;br&gt;PedidoRejeitado">
+                    <mxGeometry x="0.785" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="450" y="155"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e4" edge="1" parent="1" source="bus" target="l2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" value="regra-status-validado&lt;br&gt;regra-status-rejeitado">
+                    <mxGeometry x="-0.1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" edge="1" parent="1" source="bus" target="l3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" value="regra-notificar-equipes">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="390" y="410"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e6" edge="1" parent="1" source="l2" target="ddb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" value="PutItem (status)">
+                    <mxGeometry x="0.1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" edge="1" parent="1" source="l3" target="sns" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" value="Publish">
+                    <mxGeometry x="0.1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" edge="1" parent="1" source="sns" target="q1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" edge="1" parent="1" source="sns" target="q2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e10" edge="1" parent="1" source="sched" target="l4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=2;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" value="dispara (sem intervenção)">
+                    <mxGeometry x="-0.1" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e12" edge="1" parent="1" source="l4" target="s3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.25;entryX=0;entryY=0.35;entryDx=0;entryDy=0;" value="PutObject CSV">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <!-- Scan contorna o S3 por baixo e sobe pela direita, sem cruzar outras setas -->
+                <mxCell id="e11" edge="1" parent="1" source="l4" target="ddb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;labelBackgroundColor=#ffffff;fontSize=11;exitX=1;exitY=0.75;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" value="Scan">
+                    <mxGeometry x="0.276" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="960" y="605"/>
+                            <mxPoint x="960" y="700"/>
+                            <mxPoint x="1490" y="700"/>
+                            <mxPoint x="1490" y="270"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <!-- Logs: uma linha tracejada do grupo das 4 Lambdas -->
+                <mxCell id="e13" edge="1" parent="1" source="lambdas" target="cw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#999999;labelBackgroundColor=#ffffff;fontSize=11;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" value="logs de todas as Lambdas">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
